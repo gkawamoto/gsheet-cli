@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 
 	"github.com/gkawamoto/gsheet-cli/commands/shared"
 	"github.com/spf13/cobra"
@@ -39,6 +40,11 @@ func commandPreRunE(cmd *cobra.Command, args []string) error {
 func commandRunE(cmd *cobra.Command, args []string) error {
 	ctx := cmd.Context()
 	spreadsheetID := cmd.Flag("spreadsheet-id").Value.String()
+
+	if strings.HasPrefix(spreadsheetID, "https://docs.google.com/spreadsheets/d/") {
+		parts := strings.Split(spreadsheetID, "/")
+		spreadsheetID = parts[5]
+	}
 
 	return get(ctx, spreadsheetID, args, cmd.OutOrStdout())
 }

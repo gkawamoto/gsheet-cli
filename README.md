@@ -28,12 +28,51 @@ Flags:
   -d, --config-dir string         config directory (default "~/.config/gsheet")
   -c, --credentials-file string   credentials file location (default "~/.config/gsheet/credentials.json")
   -h, --help                      help for gsheet
+  -r, --reauthenticate            reauthenticate
+
+$ gsheet get --help
+Get data from a spreadsheet
+
+Usage:
+  gsheet get [flags]
+
+Flags:
+  -h, --help                    help for get
+  -s, --spreadsheet-id string   spreadsheet ID
+
+Global Flags:
+  -d, --config-dir string         config directory (default "~/.config/gsheet")
+  -c, --credentials-file string   credentials file location (default "~/.config/gsheet/credentials.json")
+  -r, --reauthenticate            reauthenticate
 ```
 
-## Contributing
+# Fetching data
+
+```bash
+$ gsheet get -s TW9uIEFwciAx_MCAwMzowMzoyMiBDRVNUIDIwMjMKAwM 'Sheet1!A1:C' | jq
+[
+  [
+    "ID",
+    "Name",
+    "Age"
+  ],
+  [
+    "1",
+    "Gustavo",
+    "33"
+  ],
+  [
+    "2",
+    "Ellen",
+    "29"
+  ]
+]
+```
+
+# Contributing
 
 Issues and PRs are welcome.
 
-## License
+# License
 
 MIT License

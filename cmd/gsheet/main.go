@@ -28,6 +28,13 @@ var rootCmd = &cobra.Command{
 
 		credentialsFile := cmd.Flag("credentials-file").Value.String()
 
+		if cmd.Flag("reauthenticate").Value.String() == "true" {
+			err := os.Remove(filepath.Join(configDir, "token.json"))
+			if err != nil {
+				return fmt.Errorf("error removing token file: %w", err)
+			}
+		}
+
 		credentialsBytes, err := os.ReadFile(credentialsFile)
 		if err != nil {
 			return fmt.Errorf("error reading client secret file: %w", err)
@@ -59,6 +66,7 @@ func main() {
 
 	rootCmd.PersistentFlags().StringP("config-dir", "d", filepath.Join(os.Getenv("HOME"), ".config", "gsheet"), "config directory")
 	rootCmd.PersistentFlags().StringP("credentials-file", "c", filepath.Join(os.Getenv("HOME"), ".config", "gsheet", "credentials.json"), "credentials file location")
+	rootCmd.PersistentFlags().BoolP("reauthenticate", "r", false, "reauthenticate")
 
 	rootCmd.AddCommand(auth.Command)
 	rootCmd.AddCommand(get.Command)
